@@ -15,6 +15,14 @@
 #
 # ============================================================================
 
+# Check if OS build version is compatible, exit if not compatible
+# ===============================================================
+$os = [System.Environment]::OSVersion.Version
+switch ($os.build) 
+    { 
+        "14393" {"Windows Server 2016 is compatible"}
+        Default {Exit}
+	}
 
 # Create Default Directories
 # ==========================
@@ -41,10 +49,9 @@ Set-ItemProperty -path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\W
 Set-ItemProperty -path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" "fForceClientLptDef" -value 0
 Set-ItemProperty -path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" "fDisablePNPRedir" -value 1
 
-
 # Enable Ignore Remote Keyboard Layout
 # ====================================
-set-ItemProperty -path "HKLM:\System\CurrentControlSet\Control\Keyboard Layout" "IgnoreRemoteKeyboardLayout" "1" -Type "dword"
+Set-ItemProperty -path "HKLM:\System\CurrentControlSet\Control\Keyboard Layout" "IgnoreRemoteKeyboardLayout" "1" -Type "dword"
 
 # Regional Settings to Dutch and Location to Netherlands
 # ======================================================
@@ -75,4 +82,3 @@ $HighPerf = powercfg /l | %{if($_.contains("High performance")) {$_.split()[3]}}
 $CurrPlan = $(powercfg /getactivescheme).split()[3]
 if ($CurrPlan -ne $HighPerf) {powercfg /setactive $HighPerf}
 
-# Test
