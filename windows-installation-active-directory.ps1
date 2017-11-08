@@ -62,22 +62,24 @@ If ($dcresult -match "1") {
 # Install DC into existing domain
 # ===============================
 If ($dcresult -match "2") {
-
-    # DomainName 
-    # ==============================================
-
-    $title = "Domain FQDN"
+    $DomainName = Get-ADDomain
+    $DomainName = $DomainName.DNSRoot
+    $title = "DomainName"
     $message = "
-    Do you want to install the Domain Controller into the following domain "
+    Do you want to install the Domain Controller into the following domain:
+
+    $DomainName
+    "
     $Yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes", `
         "Yes"
     $No = New-Object System.Management.Automation.Host.ChoiceDescription "&No", `
         "No"
-    $options = [System.Management.Automation.Host.ChoiceDescription[]]($No, $Yes)
-    $NCentralChoice = $host.ui.PromptForChoice($title, $message, $options, 1) 
-
-    Install-ADDSDomainController `
-    -DomainName (Read-Host "Domain FQDN to promote into") `
-    -Force:$true `
-    -InstallDns:$true
+    $options = [System.Management.Automation.Host.ChoiceDescription[]]($Yes,$No)
+    $DomainNameChoice = $host.ui.PromptForChoice($title, $message, $options, 1)
+    If ($DomainNameChoice -match 0) {
+        # Install-ADDSDomainController `
+        # -DomainName (Read-Host "Domain FQDN to promote into") `
+        # -Force:$true `
+        # -InstallDns:$true
+    }
 }
