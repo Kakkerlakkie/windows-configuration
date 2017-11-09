@@ -13,6 +13,9 @@
 # Script tested on: 
 # - Windows Server 2016
 #
+# Requirements:
+# - Powershell 3.0 or higher
+#
 # ============================================================================
 
 # Check if OS build version is compatible, exit if not compatible
@@ -83,3 +86,4 @@ If ($dcresult -match "2") {
         # -InstallDns:$true
     }
 }
+
