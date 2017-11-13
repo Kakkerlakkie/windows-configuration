@@ -81,6 +81,10 @@ If ($dcresult -match "2") {
     $DomainNameChoice = $host.ui.PromptForChoice($title, $message, $options, 1)
     If ($DomainNameChoice -match 1) {
         $DomainName = Read-Host "Domain FQDN to promote into"
+        Install-ADDSDomainController `
+        -DomainName $DomainName `
+        -Force:$true `
+        -InstallDns:$true
     }
     If ($DomainNameChoice -match 0) {
         Install-ADDSDomainController `
