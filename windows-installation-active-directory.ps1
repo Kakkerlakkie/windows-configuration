@@ -2,7 +2,7 @@
 # Name		: Windows Server Active Directory Installation
 # Author	: Peter van Barneveld  
 # Date		: 07-11-2017
-# Edit		: 07-11-2017
+# Edit		: 13-11-2017
 # Version	: 1.0
 # 
 # Description:
@@ -78,7 +78,7 @@ If ($dcresult -match "2") {
     $No = New-Object System.Management.Automation.Host.ChoiceDescription "&No", `
         "No"
     $options = [System.Management.Automation.Host.ChoiceDescription[]]($Yes,$No)
-    $DomainNameChoice = $host.ui.PromptForChoice($title, $message, $options, 1)
+    $DomainNameChoice = $host.ui.PromptForChoice($title, $message, $options, 0)
     If ($DomainNameChoice -match 1) {
         $DomainName = Read-Host "Domain FQDN to promote into"
         Install-ADDSDomainController `
